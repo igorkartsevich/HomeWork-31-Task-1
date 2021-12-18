@@ -6,6 +6,7 @@ public:
     static int ptr_counter;
 
     Toy(std::string inName) : name(inName) {};
+
     Toy(const Toy& other_toy) {
         name = other_toy.name;
         ptr_counter++;
@@ -62,7 +63,7 @@ int main() {
     Toy& ball = make_shared_toy("Ball");
     Toy& ball_1 = make_shared_toy(ball);
 
-    Shared_toy_ptr* ptr = new Shared_toy_ptr("Stick");
+    Shared_toy_ptr ptr("Stick");
 
     Shared_toy_ptr ptr_ball_1(ball);
     Shared_toy_ptr ptr_ball_2(ptr_ball_1);
