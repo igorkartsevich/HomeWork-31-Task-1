@@ -13,7 +13,7 @@ public:
     }
 
 private:
-    std::string name;
+    std::string name = '';
 
 };
 
@@ -48,7 +48,7 @@ public:
     }
 
 private:
-    Toy* toy_ptr;
+    Toy* toy_ptr = nullptr;
 };
 
 Toy& make_shared_toy(std::string name) {
