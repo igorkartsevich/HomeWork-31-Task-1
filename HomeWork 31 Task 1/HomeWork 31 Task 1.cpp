@@ -21,6 +21,8 @@ int Toy::ptr_counter = 0;
 
 class Shared_toy_ptr {
 public:
+    Shared_toy_ptr() : Shared_toy_ptr("SomeToy") {};
+
     Shared_toy_ptr(std::string inName) {
         toy_ptr = new Toy(inName);
     }
