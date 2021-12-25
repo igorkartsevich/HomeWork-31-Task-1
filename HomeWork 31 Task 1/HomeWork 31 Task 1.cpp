@@ -60,8 +60,8 @@ Toy& make_shared_toy(const Toy& other_toy) {
 }
 
 int main() {
-    Toy& ball = make_shared_toy("Ball");
-    Toy& ball_1 = make_shared_toy(ball);
+    Toy ball = make_shared_toy("Ball");
+    Toy ball_1 = make_shared_toy(ball);
 
     Shared_toy_ptr ptr("Stick");
 
