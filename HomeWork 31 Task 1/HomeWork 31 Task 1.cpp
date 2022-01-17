@@ -1,77 +1,83 @@
 ﻿#include <iostream>
 #include <string>
 
+
 class Toy {
 public:
-    static int ptr_counter;
+    Toy(std::string inName_toy) : name_toy(inName_toy) {}
 
-    Toy(std::string inName) : name(inName) {};
-
-    Toy(const Toy& other_toy) {
-        name = other_toy.name;
-        ptr_counter++;
+    Toy(const Toy& other) {
+        name_toy = other.name_toy;
     }
 
-private:
-    std::string name;
+    Toy() : Toy("SomeToy") {}
 
+private:
+    std::string name_toy;
 };
 
-int Toy::ptr_counter = 0;
 
-class Shared_toy_ptr {
+class Shared_ptr_toy {
 public:
-    Shared_toy_ptr() : Shared_toy_ptr("SomeToy") {};
+    Shared_ptr_toy() : Shared_ptr_toy("SomeToy") {}
 
-    Shared_toy_ptr(std::string inName) {
-        toy_ptr = new Toy(inName);
+    Shared_ptr_toy(std::string name) {
+        obj = new Toy(name);
+        counter = new int(0);
+    }
+    
+    Shared_ptr_toy(Toy& other_toy) {
+        obj = new Toy(other_toy);
+        counter = new int(0);
+    }
+    
+    Shared_ptr_toy(const Shared_ptr_toy& other_toy) {
+        obj = new Toy(*other_toy.obj);
+        counter = new int(0);
+        *other_toy.counter = *other_toy.counter + 1;
     }
 
-    Shared_toy_ptr(const Toy& other) {
-        toy_ptr = new Toy(other);
+    Shared_ptr_toy& operator=(const Shared_ptr_toy& other_toy) {
+        if (this == &other_toy) return *this;
+        if (obj != nullptr) delete obj;
+        
+        obj = new Toy(*other_toy.obj);
+        counter = new int(0);
+        *other_toy.counter = *other_toy.counter + 1;
     }
 
-    Shared_toy_ptr(const Shared_toy_ptr& other) {
-        toy_ptr = new Toy(*other.toy_ptr);
-    }
-
-    Shared_toy_ptr& operator = (const Shared_toy_ptr& other) {
-        if (this == &other) return *this;
-        if (toy_ptr != nullptr) delete toy_ptr;
-        toy_ptr = new Toy(*other.toy_ptr);
-        return *this;
-    }
-
-    ~Shared_toy_ptr() {
-        if (toy_ptr->ptr_counter != 0) toy_ptr->ptr_counter--;
-        else delete toy_ptr;
+    ~Shared_ptr_toy() {
+        if (*counter == 0) {
+            delete obj;
+            delete counter;
+        }
+        else *counter = *counter - 1;
     }
 
 private:
-    Toy* toy_ptr = nullptr;
+    Toy* obj = nullptr;
+    int* counter = nullptr;
 };
 
-Toy& make_shared_toy(std::string name) {
-    Toy* toy = new Toy(name);
-    return *toy;
+Toy make_shared_toy(std::string name) {
+    Toy toy(name);
+    return toy;
 }
 
-Toy& make_shared_toy(const Toy& other_toy) {
-    Toy* toy = new Toy(other_toy);
-    return *toy;
+Toy make_shared_toy(const Toy& other) {
+    Toy toy(other);
+    return toy;
 }
 
 int main() {
-    Toy ball = make_shared_toy("Ball");
-    Toy ball_1 = make_shared_toy(ball);
+    Toy toy_ball = make_shared_toy("Ball");
+    Toy toy_ball_copy = make_shared_toy(toy_ball);
 
-    Shared_toy_ptr ptr("Stick");
+    Shared_ptr_toy ptr_cube = Shared_ptr_toy("Cube");
 
-    Shared_toy_ptr ptr_ball_1(ball);
-    Shared_toy_ptr ptr_ball_2(ptr_ball_1);
-
-    Shared_toy_ptr ptr_ball_3("SomeToy");
-    ptr_ball_3 = ptr_ball_2;
-
+    Shared_ptr_toy ptr_ball = Shared_ptr_toy(toy_ball);
+    Shared_ptr_toy ptr_ball_1 = Shared_ptr_toy(ptr_ball);
+    Shared_ptr_toy ptr_ball_2 = ptr_ball_1;
+    
     return 0;
 }
