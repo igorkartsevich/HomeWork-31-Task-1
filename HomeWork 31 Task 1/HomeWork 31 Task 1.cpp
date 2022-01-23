@@ -44,6 +44,7 @@ public:
         obj = new Toy(*other_toy.obj);
         counter = new int(0);
         *other_toy.counter = *other_toy.counter + 1;
+        return *this;
     }
 
     ~Shared_ptr_toy() {
@@ -77,7 +78,8 @@ int main() {
 
     Shared_ptr_toy ptr_ball = Shared_ptr_toy(toy_ball);
     Shared_ptr_toy ptr_ball_1 = Shared_ptr_toy(ptr_ball);
-    Shared_ptr_toy ptr_ball_2 = ptr_ball_1;
+    Shared_ptr_toy ptr_ball_2;
+    ptr_ball_2 = ptr_ball_1;
     
     return 0;
 }
