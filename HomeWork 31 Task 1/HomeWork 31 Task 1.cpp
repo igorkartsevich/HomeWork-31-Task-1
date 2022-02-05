@@ -16,18 +16,22 @@ private:
 class shared_ptr_toy {
 public:
     shared_ptr_toy() : shared_ptr_toy("SomeToy") {}
+
     shared_ptr_toy(std::string inName_toy) {
         ptr = new Toy(inName_toy);
         ptr_counter = new int(1);
     }
+
     shared_ptr_toy(const Toy& other_toy) {
         ptr = new Toy(other_toy);
         ptr_counter = new int(1);
     }
+
     shared_ptr_toy(const shared_ptr_toy& other_ptr) : ptr(other_ptr.ptr) {
         ptr_counter = new int(1);
         *other_ptr.ptr_counter = *other_ptr.ptr_counter + 1;
     }
+
     shared_ptr_toy& operator=(const shared_ptr_toy& other_ptr) {
         if (this == &other_ptr) return *this;
         if (ptr != nullptr) {
@@ -41,6 +45,7 @@ public:
         ptr_counter = new int(1);
         *other_ptr.ptr_counter = *other_ptr.ptr_counter + 1;
     }
+
     ~shared_ptr_toy() {
         if (ptr != nullptr) {
             if (*ptr_counter == 1) {
@@ -78,8 +83,6 @@ int main() {
     
     shared_ptr_toy ball_ptr_copy_1;
     ball_ptr_copy_1 = ball_ptr_copy;
-
-    
 
     return 0;
 }
