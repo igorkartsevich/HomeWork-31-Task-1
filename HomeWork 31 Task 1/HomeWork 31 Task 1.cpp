@@ -29,14 +29,14 @@ public:
         ptr_counter = new int(1);
         *other_ptr.ptr_counter = *other_ptr.ptr_counter + 1;
     }
-    shared_ptr_toy& operator+(const shared_ptr_toy& other_ptr) {
+    shared_ptr_toy& operator=(const shared_ptr_toy& other_ptr) {
         if (this == &other_ptr) return *this;
         if (ptr != nullptr) {
             if (*ptr_counter == 1) {
                 delete ptr;
                 delete ptr_counter;
             }
-            else *ptr_counter--;
+            else (*ptr_counter)--;
         }
         ptr = other_ptr.ptr;
         ptr_counter = new int(1);
@@ -48,7 +48,7 @@ public:
                 delete ptr;
                 delete ptr_counter;
             }
-            else *ptr_counter--;
+            else (*ptr_counter)--;
         }
     }
 
@@ -74,9 +74,11 @@ int main() {
     shared_ptr_toy sometoy_ptr;
     shared_ptr_toy cube_ptr("Cube");
     shared_ptr_toy ball_ptr(ball);
+    
     shared_ptr_toy ball_ptr_copy(ball_ptr);
-    shared_ptr_toy ball_ptr_copy_1 = ball_ptr_copy;
-
+    
+    shared_ptr_toy ball_ptr_copy_1;
+    ball_ptr_copy_1 = ball_ptr_copy;
 
     return 0;
 }
