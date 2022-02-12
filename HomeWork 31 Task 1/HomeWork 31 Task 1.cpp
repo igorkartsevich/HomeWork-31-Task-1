@@ -5,9 +5,7 @@ class Toy {
 public:
     Toy(std::string inName) : name(inName) {}
     Toy() : Toy("SomeToy") {}
-    Toy(const Toy& other) {
-        name = other.name;
-    }
+    Toy(const Toy& other) : name(other.name) {}
 
 private:
     std::string name;
@@ -28,8 +26,7 @@ public:
     }
 
     shared_ptr_toy(const shared_ptr_toy& other_ptr) : ptr(other_ptr.ptr) {
-        ptr_counter = new int(*other_ptr.ptr_counter);
-        (*ptr_counter)++;
+        ptr_counter = new int(*other_ptr.ptr_counter + 1);
     }
 
     shared_ptr_toy& operator=(const shared_ptr_toy& other_ptr) {
@@ -41,8 +38,7 @@ public:
             }
         }
         ptr = other_ptr.ptr;
-        ptr_counter = new int(*other_ptr.ptr_counter);
-        (*ptr_counter)++;
+        ptr_counter = new int(*other_ptr.ptr_counter + 1);
     }
 
     ~shared_ptr_toy() {
@@ -78,7 +74,7 @@ int main() {
     shared_ptr_toy ball_ptr_2(ball_ptr_1);
     
     shared_ptr_toy ball_ptr_3;
-    ball_ptr_3 = ball_ptr_1;
+    ball_ptr_3 = ball_ptr_2;
 
     return 0;
 }
