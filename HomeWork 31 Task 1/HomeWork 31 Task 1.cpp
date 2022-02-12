@@ -35,11 +35,10 @@ public:
     shared_ptr_toy& operator=(const shared_ptr_toy& other_ptr) {
         if (this == &other_ptr) return *this;
         if (ptr != nullptr) {
-            if (*ptr_counter == 1) {
+            if (--(*ptr_counter) == 0) {
                 delete ptr;
                 delete ptr_counter;
             }
-            else (*ptr_counter)--;
         }
         ptr = other_ptr.ptr;
         ptr_counter = new int(*other_ptr.ptr_counter);
@@ -47,12 +46,9 @@ public:
     }
 
     ~shared_ptr_toy() {
-        if (ptr != nullptr) {
-            if (*ptr_counter == 1) {
-                delete ptr;
-                delete ptr_counter;
-            }
-            else (*ptr_counter)--;
+        if (--(*ptr_counter) == 0) {
+            delete ptr;
+            delete ptr_counter;
         }
     }
 
