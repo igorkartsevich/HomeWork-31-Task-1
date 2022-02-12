@@ -39,6 +39,7 @@ public:
         }
         ptr = other_ptr.ptr;
         ptr_counter = new int(*other_ptr.ptr_counter + 1);
+        return *this;
     }
 
     ~shared_ptr_toy() {
