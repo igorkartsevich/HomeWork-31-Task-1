@@ -28,8 +28,8 @@ public:
     }
 
     shared_ptr_toy(const shared_ptr_toy& other_ptr) : ptr(other_ptr.ptr) {
-        ptr_counter = new int(1);
-        *other_ptr.ptr_counter = *other_ptr.ptr_counter + 1;
+        ptr_counter = new int(*other_ptr.ptr_counter);
+        (*ptr_counter)++;
     }
 
     shared_ptr_toy& operator=(const shared_ptr_toy& other_ptr) {
@@ -42,8 +42,8 @@ public:
             else (*ptr_counter)--;
         }
         ptr = other_ptr.ptr;
-        ptr_counter = new int(1);
-        *other_ptr.ptr_counter = *other_ptr.ptr_counter + 1;
+        ptr_counter = new int(*other_ptr.ptr_counter);
+        (*ptr_counter)++;
     }
 
     ~shared_ptr_toy() {
@@ -77,12 +77,12 @@ int main() {
 
     shared_ptr_toy sometoy_ptr;
     shared_ptr_toy cube_ptr("Cube");
-    shared_ptr_toy ball_ptr(ball);
+    shared_ptr_toy ball_ptr_1(ball);
     
-    shared_ptr_toy ball_ptr_copy(ball_ptr);
+    shared_ptr_toy ball_ptr_2(ball_ptr_1);
     
-    shared_ptr_toy ball_ptr_copy_1;
-    ball_ptr_copy_1 = ball_ptr_copy;
+    shared_ptr_toy ball_ptr_3;
+    ball_ptr_3 = ball_ptr_1;
 
     return 0;
 }
