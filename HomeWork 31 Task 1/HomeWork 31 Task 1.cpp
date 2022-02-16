@@ -19,13 +19,17 @@ public:
 
     shared_ptr_toy(const Toy& other_toy) : ptr(new Toy(other_toy)), ptr_counter(new int(1)) {}
 
-    shared_ptr_toy(const shared_ptr_toy& other_ptr) : ptr(other_ptr.ptr), ptr_counter(new int(*other_ptr.ptr_counter + 1)) {}
+    shared_ptr_toy(const shared_ptr_toy& other_ptr) : ptr(other_ptr.ptr) {
+        ptr_counter = other_ptr.ptr_counter;
+        (*ptr_counter)++;
+    }
 
     shared_ptr_toy& operator=(const shared_ptr_toy& other_ptr) {
         if (this == &other_ptr) return *this;
         if (ptr != nullptr) delete_ref();
         ptr = other_ptr.ptr;
-        ptr_counter = new int(*other_ptr.ptr_counter + 1);
+        ptr_counter = other_ptr.ptr_counter;
+        (*ptr_counter)++;
         return *this;
     }
 
