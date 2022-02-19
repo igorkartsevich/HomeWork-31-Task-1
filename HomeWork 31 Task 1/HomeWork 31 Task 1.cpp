@@ -20,16 +20,14 @@ public:
     shared_ptr_toy(const Toy& other_toy) : ptr(new Toy(other_toy)), ptr_counter(new int(1)) {}
 
     shared_ptr_toy(const shared_ptr_toy& other_ptr) : ptr(other_ptr.ptr) {
-        ptr_counter = other_ptr.ptr_counter;
-        (*ptr_counter)++;
+        ptr_counter = &(++ * other_ptr.ptr_counter);
     }
 
     shared_ptr_toy& operator=(const shared_ptr_toy& other_ptr) {
         if (this == &other_ptr) return *this;
         if (ptr != nullptr) delete_ref();
         ptr = other_ptr.ptr;
-        ptr_counter = other_ptr.ptr_counter;
-        (*ptr_counter)++;
+        ptr_counter = &(++*other_ptr.ptr_counter);
         return *this;
     }
 
@@ -42,21 +40,16 @@ private:
     int* ptr_counter = nullptr;
 
     void delete_ref() {
-        if (--(*ptr_counter) == 0) {
+        if (--*ptr_counter == 0) {
             delete ptr; ptr = nullptr;
             delete ptr_counter; ptr_counter = nullptr;
         }
     }
 };
 
-Toy make_shared_toy(std::string name) {
-    Toy toy(name);
-    return toy;
-}
-
-Toy make_shared_toy(const Toy& other_toy) {
-    Toy toy(other_toy);
-    return toy;
+template <typename T>
+Toy make_shared_toy(T arg) {
+    return Toy(arg);
 }
 
 int main() {
